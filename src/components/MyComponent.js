@@ -1,38 +1,46 @@
-// class component
-// function component
-
 import React from "react";
+import AddUserInfo from "./AddUserInfo";
+import DisplayInfo from "./DisplayInfo";
 
 class MyComponent extends React.Component {
 
     state = {
-        name: 'NCT',
-        address: 'Binh Duong',
-        age: 20
-    };
+        users: [
+            { id: 1, name: "Chi Thanh", age: "16" },
+            { id: 2, name: "NCT", age: "20" },
+            { id: 3, name: "Cheese Thank", age: "29" }
+        ]
+    }
 
-    handleClick = (event) => {
-        console.log(">>> Click me my button")
-
+    handleAddNewUser = (userObj) => {
         this.setState({
-            name: 'Chi Thanh',
-            age: Math.floor((Math.random() * 100) + 1)
+            users: [userObj, ...this.state.users]
         })
-
     }
 
-    handleOnMouseOver(event) {
-        // console.log(event.pageX)
+    handleDeleteUser = (userId) => {
+        let copyUsers = [...this.state.users];
+        copyUsers = copyUsers.filter(item => item.id !== userId)
+        this.setState({
+            users: copyUsers
+        })
     }
+
 
     // jsx: return only a element
     render() {
         return (
-            <div>
-                My name is {this.state.name} and I'm {this.state.age}
-                <button onMouseOver={this.handleOnMouseOver}>Hover me</button>
-                <button onClick={(event) => { this.handleClick(event) }}>Click me</button>
-            </div>
+            <>
+                <AddUserInfo
+                    // to deliver func from parent to child do not use func()
+                    handleAddNewUser={this.handleAddNewUser}
+                />
+                <br /><br />
+                <DisplayInfo
+                    users={this.state.users}
+                    handleDeleteUser={this.handleDeleteUser}
+                />
+            </>
         );
     }
 }
