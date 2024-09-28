@@ -13,6 +13,7 @@ import { FaTachometerAlt, FaGem, FaList, FaGithub, FaRegLaughWink, FaHeart } fro
 import sidebarBg from '../../assets/bg2.jpg';
 import { GiCheeseWedge } from "react-icons/gi";
 import { MdDashboard } from "react-icons/md";
+import { Link } from 'react-router-dom';
 
 
 const SideBar = (props) => {
@@ -48,6 +49,7 @@ const SideBar = (props) => {
                     <Menu iconShape="circle">
                         <MenuItem icon={<MdDashboard />}>
                             Dashboard
+                            <Link to="/admins" />
                         </MenuItem>
                     </Menu>
                     <Menu iconShape="circle">
@@ -55,7 +57,10 @@ const SideBar = (props) => {
                             icon={<FaGem />}
                             title="Features"
                         >
-                            <MenuItem> Manage Users</MenuItem>
+                            <MenuItem>
+                                Manage Users
+                                <Link to="/admins/manage-users" />
+                            </MenuItem>
                             <MenuItem> Manage Quiz</MenuItem>
                             <MenuItem> Manage Question</MenuItem>
                         </SubMenu>
