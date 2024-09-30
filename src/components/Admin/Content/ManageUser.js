@@ -4,9 +4,13 @@ import { FcPlus } from "react-icons/fc";
 import TableUser from "./TableUser";
 import React, { useEffect, useState } from "react";
 import { getAllUsers } from "../../../services/apiService";
+import ModalUpdateUser from "./ModalUpdateUser";
 
 const ManageUser = (props) => {
     const [showModalCreateUser, setShowModalCreateUser] = useState(false);
+    const [showModalUpdateUser, setShowModalUpdateUser] = useState(false);
+    const [dataUpdate, setDataUpdate] = useState({})
+
     const [users, setUsers] = useState([]);
 
     useEffect(() => { fetchUsers() }, [])
@@ -17,6 +21,19 @@ const ManageUser = (props) => {
             setUsers(response.DT)
         }
     }
+
+    const handleClickBtnUpdate = (user) => {
+        setShowModalUpdateUser(true)
+        setDataUpdate(user)
+        console.log(user)
+
+    }
+
+    // Luôn đảm bảo được trạng thái khi nhấp vào nút Update > 2 ({} luôn khác với trạng thái trước đó => chạy vào đc useEffect)
+    const resetUpdateData = () => {
+        setDataUpdate({});
+    }
+
     return (
         <div className="manage-user-container">
             <div className="title">
@@ -32,12 +49,22 @@ const ManageUser = (props) => {
                 </div>
             </div>
             <div className="table-user-container">
-                <TableUser users={users} />
+                <TableUser
+                    users={users}
+                    handleClickBtnUpdate={handleClickBtnUpdate}
+                />
             </div>
             <ModalCreateUser
                 show={showModalCreateUser}
                 setShow={setShowModalCreateUser}
                 fetchUsers={fetchUsers}
+            />
+            <ModalUpdateUser
+                show={showModalUpdateUser}
+                setShow={setShowModalUpdateUser}
+                dataUpdate={dataUpdate}
+                fetchUsers={fetchUsers}
+                resetUpdateData={resetUpdateData}
             />
         </div>
     )
