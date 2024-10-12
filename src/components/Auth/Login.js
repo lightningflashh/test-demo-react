@@ -3,11 +3,16 @@ import './Login.scss'
 import { useNavigate } from 'react-router-dom';
 import { postLogin } from '../../services/apiService';
 import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { doLogin } from '../../redux/action/userAction';
+import { CgSpinner } from "react-icons/cg";
 
 const Login = (props) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const [isLoading, setIsLoading] = useState(false);
 
     const validateEmail = (email) => {
         return String(email)
@@ -30,16 +35,20 @@ const Login = (props) => {
             toast.error('Your password is empty')
             return;
         }
+        setIsLoading(true);
         //submit apis
         let response = await postLogin(email, password);
 
         if (response && response.EC === 0) {
+            dispatch(doLogin(response));
             toast.success(response.EM);
+            setIsLoading(false);
             navigate('/')
         }
 
         if (response && +response.EC != 0) {
             toast.error(response.EM);
+            setIsLoading(false);
         }
     }
 
@@ -77,8 +86,10 @@ const Login = (props) => {
                     <button
                         className='btn-submit'
                         onClick={() => handleLogin()}
+                        disabled={isLoading}
                     >
-                        Login
+                        {isLoading === true && <CgSpinner className='loader-icon' />}
+                        <span> Login</span>
                     </button>
                 </div>
                 <div className='text-center'>
