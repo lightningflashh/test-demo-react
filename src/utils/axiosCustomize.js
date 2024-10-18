@@ -1,5 +1,6 @@
 import axios from "axios";
 import NProgress from "nprogress";
+import { store } from '../redux/store';
 
 NProgress.configure({
     showSpinner: false,
@@ -12,8 +13,11 @@ const instance = axios.create({
 
 // Add a request interceptor
 instance.interceptors.request.use(function (config) {
-    NProgress.start();
     // Do something before request is sent
+    // get access_token
+    const access_token = store?.getState()?.user?.account?.access_token;
+    config.headers["Authorization"] = "Bearer " + access_token; // Mỗi khi gọi api sẽ đính kèm theo access token trên header
+    NProgress.start();
     return config;
 }, function (error) {
     // Do something with request error
