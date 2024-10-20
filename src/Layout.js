@@ -8,26 +8,40 @@ import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 import App from './App';
 import ListQuiz from "./components/User/ListQuiz";
+import DetailQuiz from "./components/User/DetailQuiz";
+
+const NotFound = () => {
+    return (
+        <div className=" container mt-3 alert alert-danger">
+            404.Not Found Data with your current URL
+        </div>
+    )
+}
+
 const Layout = () => {
     return (
         <>
             <Routes>
                 <Route path="/" element={<App />} >
-                    <Route index element={<HomePage />} /> /* Mặc định khi gọi App sẽ dẫn đến HomePage/
+                    <Route index element={<HomePage />} /> /* Mặc định khi gọi App sẽ dẫn đến HomePage */
                     <Route path="users" element={<ListQuiz />} />
                 </Route>
-
+                <Route path="/quiz/:id" element={<DetailQuiz />}> /* :id - khai báo tham số trên url */
+                </Route>
                 <Route path="admins" element={<Admin />} >
                     <Route index element={<DashBoard />} />
                     <Route path="manage-users" element={<ManageUser />} />
                 </Route>
-                
+
                 <Route path="login" element={<Login />} >
                 </Route>
 
                 <Route path="register" element={<Register />} >
                 </Route>
-        
+
+                <Route path="*" element={<NotFound />}>
+                </Route>
+
             </Routes>
             <ToastContainer
                 position="top-right"

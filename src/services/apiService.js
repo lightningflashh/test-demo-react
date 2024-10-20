@@ -30,4 +30,13 @@ const postRegister = (email, username, password) => axios.post('api/v1/register'
 
 const getQuizByUser = () => axios.get('api/v1/quiz-by-participant');
 
-export { postCreateNewUser, getAllUsers, putUpdateUser, deleteUser, getUsersWithPaginate, postLogin, postRegister, getQuizByUser }
+const getDataQuiz = (id) => axios.get(`api/v1/questions-by-quiz?quizId=${id}`);
+
+const postSubmitQuiz = (data) => axios.post(`api/v1/quiz-submit`, { ...data });
+
+export {
+    postCreateNewUser, getAllUsers, putUpdateUser,
+    deleteUser, getUsersWithPaginate, postLogin,
+    postRegister, getQuizByUser, getDataQuiz,
+    postSubmitQuiz
+}
