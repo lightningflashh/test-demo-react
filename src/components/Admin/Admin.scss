@@ -15,9 +15,15 @@
             border: 1px solid green;
         }
 
-        // .admin-main {
-        //     display: flex;
-        //     justify-content: center;
-        // }
+        .admin-main {
+            height: calc(100vh - 50px);
+            // margin-bottom: 10px;
+
+            .user-pagination {
+                display: flex;
+                justify-content: center;
+
+            }
+        }
     }
 }

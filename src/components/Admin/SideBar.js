@@ -13,11 +13,12 @@ import { FaTachometerAlt, FaGem, FaList, FaGithub, FaRegLaughWink, FaHeart } fro
 import sidebarBg from '../../assets/bg2.jpg';
 import { GiCheeseWedge } from "react-icons/gi";
 import { MdDashboard } from "react-icons/md";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 const SideBar = (props) => {
     const { image, collapsed, toggled, handleToggleSidebar } = props;
+    const navigate = useNavigate();
     return (
         <>
             <ProSidebar
@@ -41,7 +42,7 @@ const SideBar = (props) => {
                         }}
                     >
                         <GiCheeseWedge size={'3em'} color={"#ffa600"} />
-                        <span>Cheesethank</span>
+                        <span onClick={() => navigate('/')}>Cheesethank</span>
                     </div>
                 </SidebarHeader>
 
@@ -61,8 +62,11 @@ const SideBar = (props) => {
                                 Manage Users
                                 <Link to="/admins/manage-users" />
                             </MenuItem>
-                            <MenuItem> Manage Quiz</MenuItem>
-                            <MenuItem> Manage Question</MenuItem>
+                            <MenuItem>
+                                Manage Quizzes
+                                <Link to="/admins/manage-quizzes" />
+                            </MenuItem>
+                            <MenuItem> Manage Questions</MenuItem>
                         </SubMenu>
 
                     </Menu>
