@@ -1,6 +1,6 @@
 import ModalCreateUser from "./ModalCreateUser";
 import './ManageUser.scss';
-import { FcPlus } from "react-icons/fc";
+import { MdLibraryAdd } from "react-icons/md";
 // import TableUser from "./TableUser";
 import React, { useEffect, useState } from "react";
 import { getAllUsers, getUsersWithPaginate } from "../../../services/apiService";
@@ -65,9 +65,9 @@ const ManageUser = (props) => {
 
             <div className="users-content">
                 <div className="btn-add-new">
-                    <button className="btn btn-primary"
+                    <button className="btn btn-outline-primary"
                         onClick={() => setShowModalCreateUser(true)}>
-                        <FcPlus /> Add new users
+                        <MdLibraryAdd /> Add new users
                     </button>
                 </div>
             </div>
