@@ -56,13 +56,13 @@ const TableQuiz = (props) => {
                                 <td>{item.difficulty}</td>
                                 <td style={{ display: "flex", gap: "15px" }}>
                                     <button
-                                        className="btn btn-warning"
+                                        className="btn btn-outline-info"
                                         onClick={() => handleUpdate(item)}
                                     >
                                         Edit
                                     </button>
                                     <button
-                                        className="btn btn-danger"
+                                        className="btn btn-outline-danger"
                                         onClick={() => handleDelete(item)}
                                     >
                                         Delete

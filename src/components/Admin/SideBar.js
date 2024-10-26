@@ -9,7 +9,7 @@ import {
     SidebarContent,
 } from 'react-pro-sidebar';
 
-import { FaTachometerAlt, FaGem, FaList, FaGithub, FaRegLaughWink, FaHeart } from 'react-icons/fa';
+import { FaTachometerAlt, FaGem, FaList, FaGithub, FaRegLaughWink, FaHeart, FaReact } from 'react-icons/fa';
 import sidebarBg from '../../assets/bg2.jpg';
 import { GiCheeseWedge } from "react-icons/gi";
 import { MdDashboard } from "react-icons/md";
@@ -41,8 +41,8 @@ const SideBar = (props) => {
                             whiteSpace: 'nowrap',
                         }}
                     >
-                        <GiCheeseWedge size={'3em'} color={"#ffa600"} />
-                        <span onClick={() => navigate('/')}>Cheesethank</span>
+                        <FaReact size={'3em'} color={"#4AD5FF"} />
+                        <span onClick={() => navigate('/')}> Cheesethank</span>
                     </div>
                 </SidebarHeader>
 
