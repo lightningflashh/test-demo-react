@@ -76,6 +76,14 @@
                 &:hover {
                     color: red;
                 }
+
+                &.selected {
+                    background: #ccc;
+                }
+
+                &.pushed {
+                    color: red;
+                }
             }
         }
     }

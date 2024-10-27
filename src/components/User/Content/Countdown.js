@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 const Countdown = (props) => {
-    const [duration, setDuration] = useState(300);
+    const [duration, setDuration] = useState(10000);
 
     useEffect(() => {
         if (duration === 0) {
@@ -29,6 +29,7 @@ const Countdown = (props) => {
             .filter((v, i) => v !== "00" || i > 0)
             .join(":")
     }
+
 
     return (
         <div className="countdown-container">
