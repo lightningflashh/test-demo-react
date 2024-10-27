@@ -47,6 +47,37 @@
         width: 30%;
         border-radius: 5px;
         padding: 20px;
+
+        .main-timer {
+            border-bottom: 1px dashed;
+            padding-bottom: 20px;
+            text-align: center;
+            padding-top: 10px;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .main-question {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            padding: 15px;
+
+            .question {
+                border: 2px solid #ccc;
+                height: 45px;
+                width: 45px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+
+                &:hover {
+                    color: red;
+                }
+            }
+        }
     }
 
     .footer {

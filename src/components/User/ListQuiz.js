@@ -20,18 +20,20 @@ const ListQuiz = (props) => {
         }
     }
 
+    console.log("Length ", arrQuiz.length)
+
     return (
-        <div className="list-quiz-container co">
+        <div className="list-quiz-container">
             {arrQuiz && arrQuiz.length > 0 &&
                 arrQuiz.map((quiz, index) => {
                     return (
-                        <div key={`${index}-quiz`} className="card" style={{ width: "18rem" }}>
+                        <div key={`${index}-quiz`} className="card" style={{ width: "17.5rem" }}>
                             <img src={`data:image/jpeg;base64,${quiz.image}`} className="card-img-top" alt="..." />
-                            <div className="card-body">
+                            <div className="card-body d-flex flex-column">
                                 <h5 className="card-title">Quiz {index + 1}</h5>
                                 <p className="card-text">{quiz.description}</p>
                                 <button
-                                    className="btn btn-primary"
+                                    className="btn btn-outline-info mt-auto"
                                     onClick={() => navigate(`/quiz/${quiz.id}`, { state: { quizTitle: quiz.description } })}
                                 >
                                     Start now

@@ -5,6 +5,7 @@ import _ from 'lodash';
 import './DetailQuiz.scss';
 import Question from './Question';
 import ModalResult from "./ModalResult";
+import RightContent from "./Content/RightContent";
 const DetailQuiz = (props) => {
     const params = useParams();
     const location = useLocation(); // xác định được từ trang nào chuyển đến trang này 
@@ -158,7 +159,11 @@ const DetailQuiz = (props) => {
 
             </div>
             <div className="right-content">
-                count down
+                <
+                    RightContent
+                    dataQuiz={dataQuiz}
+                    handleFinishQuiz={handleFinishQuiz}
+                />
             </div>
             <ModalResult
                 show={isShowModalResult}

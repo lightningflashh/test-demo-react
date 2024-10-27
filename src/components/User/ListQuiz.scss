@@ -1,4 +1,10 @@
 .list-quiz-container {
+    padding: 20px 115px;
     display: flex;
-    gap: 50px;
+    gap: 55px;
+    flex-wrap: wrap;
+
+    .card-img-top {
+        height: 170px;
+    }
 }

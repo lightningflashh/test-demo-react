@@ -9,7 +9,11 @@ import { IoIosCreate } from "react-icons/io";
 import { v4 as uuidv4 } from 'uuid';
 import _ from 'lodash';
 import Lightbox from "react-awesome-lightbox";
-import { getAllQuizForAdmin, postCreateNewQuestionForQuiz, postCreateNewAnswerForQuestion } from "../../../../services/apiService";
+import {
+    getAllQuizForAdmin,
+    getQuizWithQA,
+    postUpsertQA
+} from "../../../../services/apiService";
 import { toast } from 'react-toastify';
 
 const QuizQA = (props) => {
@@ -17,7 +21,7 @@ const QuizQA = (props) => {
     const initQuestions = [{
         id: uuidv4(),
         description: '',
-        image: '',
+        imageFile: '',
         imageName: '',
         answers: [
             { id: uuidv4(), description: '', isCorrect: false }
@@ -52,12 +56,43 @@ const QuizQA = (props) => {
         }
     }
 
+    useEffect(() => {
+        if (selectedQuiz && selectedQuiz.value) {
+            fetchQuizWithQA();
+        }
+    }, [selectedQuiz])
+
+    // return a promise that resolves with a File instance
+    const urltoFile = (url, filename, mimeType) => {
+        return fetch(url)
+            .then(res => res.arrayBuffer())
+            .then(buf => new File([buf], filename, { type: mimeType }));
+    }
+
+    const fetchQuizWithQA = async () => {
+        let res = await getQuizWithQA(selectedQuiz.value);
+        if (res && res.EC === 0) {
+            // covert base64 to file object
+            let newQA = [];
+            for (let i = 0; i < res.DT.qa.length; i++) {
+                let q = res.DT.qa[i];
+                if (q.imageFile) {
+                    q.imageName = `Question-${q.id}.png`;
+                    q.imageFile =
+                        await urltoFile(`data:image/png;base64,${q.imageFile}`, `Question-${q.id}.png`, 'image/png')
+                }
+                newQA.push(q);
+            }
+            setQuestions(newQA);
+        }
+    }
+
     const handleAddRemoveQuestion = (type, id) => {
         if (type === 'ADD') {
             const newQuestion = {
                 id: uuidv4(),
                 description: '',
-                image: '',
+                imageFile: '',
                 imageName: '',
                 answers: [
                     { id: uuidv4(), description: '', isCorrect: false }
@@ -113,7 +148,7 @@ const QuizQA = (props) => {
         let questionsClone = _.cloneDeep(questions);
         let index = questionsClone.findIndex(item => item.id === questionId);
         if (index > -1 && event.target && event.target.files && event.target.files[0]) {
-            questionsClone[index].image = event.target.files[0];
+            questionsClone[index].imageFile = event.target.files[0];
             questionsClone[index].imageName = event.target.files[0].name;
             setQuestions(questionsClone);
         }
@@ -141,6 +176,13 @@ const QuizQA = (props) => {
             setQuestions(questionsClone);
         }
     }
+
+    const toBase64 = file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+    });
 
     const handleSubmitQuestionForQuiz = async () => {
 
@@ -184,22 +226,35 @@ const QuizQA = (props) => {
         }
 
         // submit questions
-        for (const question of questions) {
-            const q = await postCreateNewQuestionForQuiz(
-                +selectedQuiz.value,
-                question.description,
-                question.image
-            );
-            // submit answer
-            for (const answer of question.answers) {
-                await postCreateNewAnswerForQuestion(
-                    answer.description,
-                    answer.isCorrect,
-                    q.DT.id)
-            }
+        // for (const question of questions) {
+        //     const q = await postCreateNewQuestionForQuiz(
+        //         +selectedQuiz.value,
+        //         question.description,
+        //         question.imageFile
+        //     );
+        //     // submit answer
+        //     for (const answer of question.answers) {
+        //         await postCreateNewAnswerForQuestion(
+        //             answer.description,
+        //             answer.isCorrect,
+        //             q.DT.id)
+        //     }
+        // }
+        let questionClone = _.cloneDeep(questions);
+        for (let i = 0; i < questionClone.length; i++) {
+            questionClone[i].imageFile = await toBase64(questionClone[i].imageFile)
         }
+        console.log(">>>> Question clone ", questionClone)
+        // Phần này dưới back-end xử lý chủ yếu
+        let res = await postUpsertQA({
+            quizId: selectedQuiz.value,
+            questions: questionClone
+        });
 
-        toast.success('Create questions for quiz successfully!')
+        if (res && res.EC === 0) {
+            toast.success(res.EM)
+            fetchQuiz();
+        }
         setQuestions(initQuestions);
     }
 
@@ -208,7 +263,7 @@ const QuizQA = (props) => {
         let index = questionsClone.findIndex(item => item.id === questionId);
         if (index > -1) {
             setDataImagePreview({
-                url: URL.createObjectURL(questionsClone[index].image),
+                url: URL.createObjectURL(questionsClone[index].imageFile),
                 title: questionsClone[index].imageName
             });
             setIsPreviewImage(true);
@@ -257,7 +312,6 @@ const QuizQA = (props) => {
                                         />
                                         <span style={{ cursor: 'pointer' }}> {question.imageName ?
                                             <span
-
                                                 onClick={() => handlePreviewImage(question.id)}>
                                                 {question.imageName}
                                             </span> : '0 file is uploaded'}
@@ -337,6 +391,5 @@ const QuizQA = (props) => {
         </div >
     )
 }
-
 export default QuizQA;
 
