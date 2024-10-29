@@ -1,7 +1,6 @@
 import ModalCreateUser from "./ModalCreateUser";
 import './ManageUser.scss';
 import { MdLibraryAdd } from "react-icons/md";
-// import TableUser from "./TableUser";
 import React, { useEffect, useState } from "react";
 import { getAllUsers, getUsersWithPaginate } from "../../../services/apiService";
 import ModalUpdateUser from "./ModalUpdateUser";
