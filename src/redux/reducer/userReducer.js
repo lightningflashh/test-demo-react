@@ -10,6 +10,7 @@ const INITIAL_STATE = {
     },
     isAuthenticated: false
 };
+
 const userReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case FETCH_USER_LOGIN_SUCCESS:
@@ -26,7 +27,16 @@ const userReducer = (state = INITIAL_STATE, action) => {
             };
         case USER_LOGOUT_SUCCESS:
             return {
-                ...state, INITIAL_STATE
+                ...state,
+                account: {
+                    access_token: '',
+                    refresh_token: '',
+                    username: '',
+                    image: '',
+                    role: '',
+                    email: ''
+                },
+                isAuthenticated: false
             };
         default: return state;
     }

@@ -7,10 +7,10 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { logout } from '../../services/apiService';
 import { toast } from 'react-toastify';
 import { doLogout } from '../../redux/action/userAction';
-import { GiSpellBook } from "react-icons/gi";
 import './Header.scss';
 import Font, { Text } from 'react-font'
 import Language from './Language';
+import { SiReactos } from "react-icons/si";
 
 const Header = () => {
 
@@ -40,7 +40,7 @@ const Header = () => {
     return (
         <Navbar expand="lg" className="bg-body-tertiary">
             <Container>
-                <GiSpellBook className='logo' />
+                <SiReactos className='logo' />
                 <NavLink to="/" className='navbar-brand'>
                     <Font family='Rubik Bubbles'>
                         <p className='logo-content'>EasyQuiz</p>
