@@ -1,0 +1,10 @@
+{
+    "homepage": {
+        "title1": "Make your quiz feel worth taking",
+        "title2": "Call quiz takers by their name and show different results, like specific product recommendations, based on how they answer your quiz.",
+        "title3": {
+            "login": "Get started. It's free",
+            "doing": "Doing quiz now"
+        }
+    }
+}

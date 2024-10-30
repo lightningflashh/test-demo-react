@@ -10,6 +10,8 @@ import { doLogout } from '../../redux/action/userAction';
 import { GiSpellBook } from "react-icons/gi";
 import './Header.scss';
 import Font, { Text } from 'react-font'
+import Language from './Language';
+
 const Header = () => {
 
     const isAuthenticated = useSelector(state => state.user.isAuthenticated)
@@ -65,6 +67,7 @@ const Header = () => {
                                 <NavDropdown.Divider />
                             </NavDropdown>
                         }
+                        <Language />
                     </Nav>
                 </Navbar.Collapse>
             </Container>
