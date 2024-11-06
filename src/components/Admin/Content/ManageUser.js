@@ -3,6 +3,7 @@ import './ManageUser.scss';
 import { MdLibraryAdd } from "react-icons/md";
 import React, { useEffect, useState } from "react";
 import { getAllUsers, getUsersWithPaginate } from "../../../services/apiService";
+import ModalDetailUser from "./ModalDetailUser";
 import ModalUpdateUser from "./ModalUpdateUser";
 import ModalDeleteUser from "./ModalDeleteUser";
 import TableUserPaginate from "./TableUserPaginate";
@@ -13,7 +14,9 @@ const ManageUser = (props) => {
     const [currentPage, setCurrentPage] = useState(1);
 
     const [showModalCreateUser, setShowModalCreateUser] = useState(false);
+    const [showModalDetailUser, setShowModalDetailUser] = useState(false);
     const [showModalUpdateUser, setShowModalUpdateUser] = useState(false);
+    const [dataDetail, setDataDetail] = useState({})
     const [dataUpdate, setDataUpdate] = useState({})
     const [dataDelete, setDataDelete] = useState({})
     const [showModalDeleteUser, setShowModalDeleteUser] = useState(false);
@@ -41,6 +44,11 @@ const ManageUser = (props) => {
         }
     }
 
+    const handleClickBtnView = (user) => {
+        setShowModalDetailUser(true)
+        setDataDetail(user)
+    }
+
     const handleClickBtnUpdate = (user) => {
         setShowModalUpdateUser(true)
         setDataUpdate(user)
@@ -53,6 +61,10 @@ const ManageUser = (props) => {
 
     // Luôn đảm bảo được trạng thái khi nhấp vào nút Update > 2 ({} luôn khác với trạng thái trước đó => chạy vào đc useEffect)
     const resetUpdateData = () => {
+        setDataUpdate({});
+    }
+
+    const resetDetailData = () => {
         setDataUpdate({});
     }
 
@@ -73,6 +85,7 @@ const ManageUser = (props) => {
             <div className="table-user-container">
                 <TableUserPaginate
                     users={users}
+                    handleClickBtnView={handleClickBtnView}
                     handleClickBtnUpdate={handleClickBtnUpdate}
                     handleClickBtnDelete={handleClickBtnDelete}
                     // Phần riêng
@@ -82,6 +95,12 @@ const ManageUser = (props) => {
                     setCurrentPage={setCurrentPage}
                 />
             </div>
+            <ModalDetailUser
+                show={showModalDetailUser}
+                setShow={setShowModalDetailUser}
+                dataDetail={dataDetail}
+                resetDetailData={resetDetailData}
+            />
             <ModalCreateUser
                 show={showModalCreateUser}
                 setShow={setShowModalCreateUser}
