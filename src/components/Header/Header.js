@@ -11,13 +11,21 @@ import './Header.scss';
 import Font, { Text } from 'react-font'
 import Language from './Language';
 import { SiReactos } from "react-icons/si";
+import { useState } from 'react';
+import Profile from './Profile';
 
 const Header = () => {
 
     const isAuthenticated = useSelector(state => state.user.isAuthenticated)
     const account = useSelector(state => state.user.account)
+    // get role to display
+    const role = useSelector((state) => state.user.account.role);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const [isShowModalProfile, setIsShowModalProfile] = useState(false);
+
+
 
     const handleLogOut = async () => {
         let res = await logout(account.email, account.refresh_token);
@@ -38,40 +46,50 @@ const Header = () => {
         navigate('/register')
     }
     return (
-        <Navbar expand="lg" className="bg-body-tertiary">
-            <Container>
-                <SiReactos className='logo' />
-                <NavLink to="/" className='navbar-brand'>
-                    <Font family='Rubik Bubbles'>
-                        <p className='logo-content'>EasyQuiz</p>
-                    </Font>
-                </NavLink>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="me-auto">
-                        <NavLink to="/" className='nav-link'>Home</NavLink>
-                        <NavLink to="/users" className='nav-link'>User</NavLink>
-                        <NavLink to="/admins" className='nav-link'>Admin</NavLink>
-                    </Nav>
+        <>
+            <Navbar expand="lg" className="bg-body-tertiary">
+                <Container>
+                    <SiReactos className='logo' />
+                    <NavLink to="/" className='navbar-brand'>
+                        <Font family='Rubik Bubbles'>
+                            <p className='logo-content'>EasyQuiz</p>
+                        </Font>
+                    </NavLink>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Collapse id="basic-navbar-nav">
+                        <Nav className="me-auto">
+                            <NavLink to="/" className='nav-link'>Home</NavLink>
+                            <NavLink to="/users" className='nav-link'>User</NavLink>
+                            {role === 'ADMIN' ?
+                                <NavLink to="/admins" className='nav-link'>Admin</NavLink>
+                                :
+                                <></>
+                            }
+                        </Nav>
 
-                    <Nav>
-                        {isAuthenticated === false ?
-                            <>
-                                <button className='btn-login' onClick={() => handleLogin()}>Log in</button>
-                                <button className='btn-signup' onClick={() => handleRegister()}>Sign up</button>
-                            </>
-                            :
-                            <NavDropdown title="Settings" id="basic-nav-dropdown">
-                                <NavDropdown.Item >Profile</NavDropdown.Item>
-                                <NavDropdown.Item onClick={() => handleLogOut()}>Log out</NavDropdown.Item>
-                                <NavDropdown.Divider />
-                            </NavDropdown>
-                        }
-                        <Language />
-                    </Nav>
-                </Navbar.Collapse>
-            </Container>
-        </Navbar>
+                        <Nav>
+                            {isAuthenticated === false ?
+                                <>
+                                    <button className='btn-login' onClick={() => handleLogin()}>Log in</button>
+                                    <button className='btn-signup' onClick={() => handleRegister()}>Sign up</button>
+                                </>
+                                :
+                                <NavDropdown title="Settings" id="basic-nav-dropdown">
+                                    <NavDropdown.Item onClick={() => setIsShowModalProfile(true)}>Profile</NavDropdown.Item>
+                                    <NavDropdown.Item onClick={() => handleLogOut()}>Log out</NavDropdown.Item>
+                                    <NavDropdown.Divider />
+                                </NavDropdown>
+                            }
+                            <Language />
+                        </Nav>
+                    </Navbar.Collapse>
+                </Container>
+            </Navbar>
+            <Profile
+                show={isShowModalProfile}
+                setShow={setIsShowModalProfile}
+            />
+        </>
     );
 }
 export default Header;
